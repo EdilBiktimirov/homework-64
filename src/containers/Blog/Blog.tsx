@@ -1,14 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Navbar from "../../components/Navbar/Navbar";
-import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import AddPost from "../../components/AddPost/AddPost";
 import Home from "../../components/Home/Home";
 import axiosApi from "../../axiosApi";
 import type {PostType} from "../../types";
 import type {PostsType} from "../../types";
-// import Posts from "../../components/Post/Posts";
 import Post from "../../components/Post/Post";
 import Spinner from "../../components/Spinner/Spinner";
+import EditPost from "../../components/EditPost/EditPost";
+import About from "../../components/About/About";
+import AboutEdit from "../../components/About/AboutEdit";
+import Contacts from "../../components/Contacts/Contacts";
+import ContactsEdit from "../../components/Contacts/ContactsEdit";
 
 
 const Blog = () => {
@@ -17,7 +21,6 @@ const Blog = () => {
 
   const navigate = useNavigate()
   const location = useLocation();
-
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -32,32 +35,29 @@ const Blog = () => {
           post.id = elem;
           return post;
         });
-
         setPosts(postsArray);
       }
     } finally {
-
       setLoading(false);
     }
   }, []);
 
 
   useEffect(() => {
-
-    fetchPosts().catch(console.error);
+    if (location.pathname === '/') {
+      fetchPosts().catch(console.error);
+    }
   }, [fetchPosts, location]);
 
   const removePost = async (id: string) => {
     await axiosApi.delete('/posts/' + id + '.json');
     navigate('/');
-  }
+  };
 
   let home = <Home posts={posts}/>
-
   if (loading) {
     home = <Spinner/>
   }
-
 
   return (
     <div>
@@ -73,8 +73,22 @@ const Blog = () => {
           <Post onBtnClick={removePost}/>
         )}/>
         <Route path="/posts/:id/edit" element={(
-          <AddPost/>
+          <EditPost/>
         )}/>
+        <Route path="/about" element={(
+         <About/>
+        )}>
+          <Route path="/about:id" element={
+            <AboutEdit/>
+          }/>
+        </Route>
+        <Route path="/contacts" element={(
+          <Contacts/>
+        )}>
+          <Route path="/contacts:id" element={
+            <ContactsEdit/>
+          }/>
+        </Route>
         <Route path="*" element={(
           <h1>Not found</h1>
         )}/>

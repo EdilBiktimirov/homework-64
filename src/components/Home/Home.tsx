@@ -11,7 +11,11 @@ const Home: React.FC<Props> = ({posts}) => {
   let showPost = (
     <div>
       {posts.map((element) => (
-        <PostCard date={element.date} title={element.title} key={element.id} id={element.id}/>
+        <PostCard
+          date={element.date}
+          title={element.title}
+          key={element.id}
+          id={element.id}/>
       ))}
     </div>
   )

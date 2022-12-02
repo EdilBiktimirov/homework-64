@@ -7,15 +7,15 @@ interface Props {
   title: string;
 }
 
-const PostCard: React.FC<Props> = ({id,date, title}) => {
-  // const {id} = useParams();
-  // console.log(id);
+const PostCard: React.FC<Props> = ({id, date, title}) => {
 
   return (
-    <div>
+    <div className="card shadow-sm my-2 p-2">
       <p>Created on: {date}</p>
       <p>{title}</p>
-      <Link to={"posts/" + id}>Read more</Link>
+      <Link
+        className="btn btn-warning w-25 mx-auto"
+        to={"posts/" + id}>Read more</Link>
     </div>
   );
 };

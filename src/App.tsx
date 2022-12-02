@@ -4,7 +4,7 @@ import Blog from "./containers/Blog/Blog";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container-fluid">
     <Blog/>
     </div>
   );
